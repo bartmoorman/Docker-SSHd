@@ -2,7 +2,7 @@
 ```
 docker build \
 --tag sshd \
-https://github.com/iVirus/Docker.git#master:SSHd
+https://github.com/iVirus/Docker-SSHd.git
 ```
 
 ### Run
