@@ -9,4 +9,4 @@ done
 
 exec $(which sshd) \
     -D \
-    -e
+    -E /var/log/sshd.log
