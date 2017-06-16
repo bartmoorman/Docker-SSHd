@@ -7,6 +7,22 @@ for SSHD_USER in ${SSHD_USERS[@]}; do
     fi
 done
 
+if [ ! -d /var/run/sshd ]; then
+    mkdir /var/run/sshd
+fi
+
 exec $(which sshd) \
     -D \
-    -E /var/log/sshd.log
+    -E /var/log/sshd.log &
+
+if [ ! -f /var/log/denyhost ] && [ ! -f /var/lib/denyhosts/offset ]; then
+    sed -ri \
+    -e 's/^(IPTABLES\s+=\s+.*)/#\1/' \
+    -e 's/^(ADMIN_EMAIL\s+=\s+.*)/#\1/' \
+    -e '/^#USERDEF_FAILED_ENTRY_REGEX/!b;n;cUSERDEF_FAILED_ENTRY_REGEX = Failed (?P<method>\\S*) for (?P<user>.*) from (?P<host>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}) port \\d+ ssh2' \
+    /etc/denyhosts.conf
+fi
+
+exec $(which denyhosts) \
+    --file /var/log/sshd.log \
+    --foreground
