@@ -8,6 +8,8 @@ for SSHD_USER in ${SSHD_USERS[@]}; do
 done
 
 if [ ! -d /var/run/sshd ]; then
+    rm --force /etc/ssh/ssh_host_*
+    dpkg-reconfigure openssh-server
     mkdir /var/run/sshd
 fi
 

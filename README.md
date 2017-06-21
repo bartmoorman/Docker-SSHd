@@ -2,6 +2,7 @@
 docker run \
 --rm \
 --detach \
+--init \
 --name sshd \
 --publish 2222:22 \
 --env "SSHD_USERS=docker" \
