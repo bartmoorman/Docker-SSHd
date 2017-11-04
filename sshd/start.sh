@@ -14,8 +14,7 @@ if [ ! -d /var/run/sshd ]; then
 fi
 
 exec $(which sshd) \
-    -D -E \
-    /var/log/sshd.log &
+    -D -E /var/log/sshd.log &
 
 if [ ! -f /var/log/denyhost ] && [ ! -f /var/lib/denyhosts/offset ]; then
     sed -ri \
