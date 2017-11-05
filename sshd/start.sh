@@ -13,7 +13,7 @@ if [ ! -d /var/run/sshd ]; then
     mkdir /var/run/sshd
 fi
 
-$(which sshd) -D -E /var/log/sshd.log &
+$(which sshd) -E /var/log/sshd.log
 
 if [ ! -f /var/log/denyhost ] && [ ! -f /var/lib/denyhosts/offset ]; then
     sed -ri \
