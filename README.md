@@ -2,6 +2,7 @@
 docker run \
 --rm \
 --detach \
+--init \
 --name sshd \
 --hostname sshd \
 --publish 2222:22 \

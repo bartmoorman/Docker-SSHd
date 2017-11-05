@@ -13,8 +13,7 @@ if [ ! -d /var/run/sshd ]; then
     mkdir /var/run/sshd
 fi
 
-exec $(which sshd) \
-    -D -E /var/log/sshd.log &
+$(which sshd) -D -E /var/log/sshd.log &
 
 if [ ! -f /var/log/denyhost ] && [ ! -f /var/lib/denyhosts/offset ]; then
     sed -ri \
@@ -24,6 +23,6 @@ if [ ! -f /var/log/denyhost ] && [ ! -f /var/lib/denyhosts/offset ]; then
     /etc/denyhosts.conf
 fi
 
-exec denyhosts \
+exec $(which denyhosts) \
     --file /var/log/sshd.log \
     --foreground
