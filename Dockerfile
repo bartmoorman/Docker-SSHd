@@ -5,15 +5,18 @@ ENV SSHD_USERS="docker" \
 
 ARG DEBIAN_FRONTEND="noninteractive"
 
-RUN apt-get update && \
-    apt-get dist-upgrade --yes && \
-    apt-get install --yes --no-install-recommends curl denyhosts openssh-server iputils-ping && \
-    apt-get autoremove --yes --purge && \
-    apt-get clean && \
-    rm --recursive --force /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update \
+ && apt-get install --yes --no-install-recommends \
+    curl \
+    denyhosts \
+    iputils-ping \
+    openssh-server \
+ && apt-get autoremove --yes --purge \
+ && apt-get clean \
+ && rm --recursive --force /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY sshd/ /etc/sshd/
 
-CMD ["/etc/sshd/start.sh"]
-
 EXPOSE 22
+
+CMD ["/etc/sshd/start.sh"]

@@ -9,7 +9,7 @@ done
 
 if [ ! -d /var/run/sshd ]; then
     rm --force /etc/ssh/ssh_host_*
-    dpkg-reconfigure openssh-server
+    DEBIAN_FRONTEND="noninteractive" dpkg-reconfigure openssh-server
     mkdir /var/run/sshd
 fi
 
