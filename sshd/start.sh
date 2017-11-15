@@ -10,16 +10,16 @@ done
 if [ ! -d /var/run/sshd ]; then
     rm --force /etc/ssh/ssh_host_*
     DEBIAN_FRONTEND="noninteractive" dpkg-reconfigure openssh-server
-    mkdir /var/run/sshd
+    mkdir --parents /var/run/sshd
 fi
 
 $(which sshd) -E /var/log/sshd.log
 
 if [ ! -f /var/log/denyhost ] && [ ! -f /var/lib/denyhosts/offset ]; then
-    sed -ri \
-    -e 's/^(IPTABLES\s+=\s+.*)/#\1/' \
-    -e 's/^(ADMIN_EMAIL\s+=\s+.*)/#\1/' \
-    -e '/^#USERDEF_FAILED_ENTRY_REGEX/!b;n;cUSERDEF_FAILED_ENTRY_REGEX = Failed (?P<method>\\S*) for (?P<invalid>invalid user |illegal user )?(?P<user>.*) from (::ffff:)?(?P<host>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})( port \\d+)?( ssh2)?' \
+    sed --in-place --regexp-extended \
+    --expression 's/^(IPTABLES\s+=\s+.*)/#\1/' \
+    --expression 's/^(ADMIN_EMAIL\s+=\s+.*)/#\1/' \
+    --expression '/^#USERDEF_FAILED_ENTRY_REGEX/!b;n;cUSERDEF_FAILED_ENTRY_REGEX = Failed (?P<method>\\S*) for (?P<invalid>invalid user |illegal user )?(?P<user>.*) from (::ffff:)?(?P<host>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})( port \\d+)?( ssh2)?' \
     /etc/denyhosts.conf
 fi
 
