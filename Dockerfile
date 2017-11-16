@@ -11,6 +11,8 @@ RUN apt-get update \
     denyhosts \
     iputils-ping \
     openssh-server \
+    python-setuptools \
+ && easy_install speedtest-cli \
  && apt-get autoremove --yes --purge \
  && apt-get clean \
  && rm --recursive --force /var/lib/apt/lists/* /tmp/* /var/tmp/*
