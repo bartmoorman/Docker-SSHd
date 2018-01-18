@@ -7,9 +7,20 @@ for SSHD_USER in ${SSHD_USERS[@]}; do
     fi
 done
 
+if [ ! -d /config/ssh/keys ]; then
+    mkdir --parents /config/ssh/keys
+fi
+
+for HOST_KEY in /etc/ssh/ssh_host_*_key; do
+    TYPE=$(cut -d_ -f3 <<< ${HOST_KEY##*/})
+    if [ ! -f /config/ssh/keys/ssh_host_${TYPE}_key ]; then
+        ssh-keygen -q -f /config/ssh/keys/ssh_host_${TYPE}_key -t ${TYPE} -N ''
+    fi
+    rm --force /etc/ssh/ssh_host_${TYPE}_key*
+    ln --symbolic /config/ssh/keys/ssh_host_${TYPE}_key* /etc/ssh
+done
+
 if [ ! -d /var/run/sshd ]; then
-    rm --force /etc/ssh/ssh_host_*
-    DEBIAN_FRONTEND="noninteractive" dpkg-reconfigure openssh-server
     mkdir --parents /var/run/sshd
 fi
 

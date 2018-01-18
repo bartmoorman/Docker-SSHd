@@ -27,6 +27,8 @@ RUN apt-get update \
 
 COPY sshd/ /etc/sshd/
 
+VOLUME /config
+
 EXPOSE 22
 
 CMD ["/etc/sshd/start.sh"]
