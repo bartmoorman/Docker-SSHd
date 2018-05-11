@@ -31,7 +31,7 @@ pidfile=/var/run/denyhosts.pid
 if [ -f ${pidfile} ]; then
     pid=$(cat ${pidfile})
 
-    if [[ ! -d /proc/${pid} || ( -d /proc/${pid} && $(basename $(readlink /proc/${pid}/exe)) != 'python2.7' ) ]]; then
+    if [ ! -d /proc/${pid} ] || [[ -d /proc/${pid} && $(basename $(readlink /proc/${pid}/exe)) != 'python2.7' ]]; then
         rm ${pidfile}
     fi
 fi

@@ -1,4 +1,4 @@
-FROM bmoorman/ubuntu
+FROM bmoorman/ubuntu:xenial
 
 ENV SSHD_USERS="docker" \
     SSHD_KEY_LOC="https://raw.githubusercontent.com/iVirus/Docker/master/SSHd/keys"
