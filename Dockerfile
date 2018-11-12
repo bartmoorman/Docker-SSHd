@@ -1,4 +1,4 @@
-FROM bmoorman/ubuntu:xenial
+FROM bmoorman/ubuntu:bionic
 
 ENV SSHD_USERS="docker" \
     SSHD_KEY_LOC="https://raw.githubusercontent.com/iVirus/Docker/master/SSHd/keys"
@@ -11,7 +11,7 @@ RUN apt-get update \
     denyhosts \
     iputils-ping \
     openssh-server \
-    python-setuptools \
+    python-pip \
  && sed --in-place --regexp-extended \
     --expression 's/^(IPTABLES\s+=\s+.*)/#\1/' \
     --expression 's/^(ADMIN_EMAIL\s+=\s+.*)/#\1/' \
@@ -20,7 +20,7 @@ RUN apt-get update \
  && sed --in-place --regexp-extended \
     --expression 's/^#(PasswordAuthentication\s+).*/\1no/' \
     /etc/ssh/sshd_config \
- && easy_install speedtest-cli \
+ && pip install speedtest-cli \
  && apt-get autoremove --yes --purge \
  && apt-get clean \
  && rm --recursive --force /var/lib/apt/lists/* /tmp/* /var/tmp/*
