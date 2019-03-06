@@ -24,4 +24,4 @@ if [ ! -d /var/run/sshd ]; then
     mkdir --parents /var/run/sshd
 fi
 
-$(which sshd) -D
+exec $(which sshd) -D
