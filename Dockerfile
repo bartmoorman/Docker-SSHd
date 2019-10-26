@@ -13,6 +13,7 @@ RUN apt-get update \
     python-pip \
  && sed --in-place --regexp-extended \
     --expression 's/^#(PasswordAuthentication\s+).*/\1no/' \
+    --expression 's/^#(GatewayPorts\s+).*/\1yes/' \
     /etc/ssh/sshd_config \
  && pip install speedtest-cli \
  && apt-get autoremove --yes --purge \
