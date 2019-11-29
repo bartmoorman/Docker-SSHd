@@ -9,6 +9,8 @@ RUN apt-get update \
  && apt-get install --yes --no-install-recommends \
     curl \
     iputils-ping \
+    mtr-tiny \
+    net-tools \
     openssh-server \
     python-pip \
  && sed --in-place --regexp-extended \
