@@ -12,6 +12,7 @@ RUN apt-get update \
     mtr-tiny \
     net-tools \
     openssh-server \
+    python \
     python-pip \
  && sed --in-place --regexp-extended \
     --expression 's/^#(PasswordAuthentication\s+).*/\1no/' \
