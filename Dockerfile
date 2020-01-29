@@ -5,20 +5,20 @@ ENV SSHD_USERS="docker" \
 
 ARG DEBIAN_FRONTEND="noninteractive"
 
-RUN apt-get update \
+RUN echo 'deb https://ookla.bintray.com/debian bionic main' > /etc/apt/sources.list.d/speedtest.list \
+ && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 379CE192D401AB61 \
+ && apt-get update \
  && apt-get install --yes --no-install-recommends \
     curl \
     iputils-ping \
     mtr-tiny \
     net-tools \
     openssh-server \
-    python \
-    python-pip \
+    speedtest \
  && sed --in-place --regexp-extended \
     --expression 's/^#(PasswordAuthentication\s+).*/\1no/' \
     --expression 's/^#(GatewayPorts\s+).*/\1yes/' \
     /etc/ssh/sshd_config \
- && pip install speedtest-cli \
  && apt-get autoremove --yes --purge \
  && apt-get clean \
  && rm --recursive --force /var/lib/apt/lists/* /tmp/* /var/tmp/*
