@@ -9,6 +9,7 @@ RUN echo 'deb https://ookla.bintray.com/debian bionic main' > /etc/apt/sources.l
  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 379CE192D401AB61 \
  && apt-get update \
  && apt-get install --yes --no-install-recommends \
+    dnsutils \
     curl \
     iputils-ping \
     mtr-tiny \
