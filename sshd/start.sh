@@ -1,5 +1,5 @@
 #!/bin/bash
-for SSHD_USER in ${SSHD_USERS[@]}; do
+for SSHD_USER in ${SSHD_USERS}; do
     if ! getent passwd ${SSHD_USER} > /dev/null; then
         useradd --shell /bin/bash --create-home ${SSHD_USER}
         install --owner ${SSHD_USER} --group ${SSHD_USER} --mode 700 --directory /home/${SSHD_USER}/.ssh
@@ -24,4 +24,7 @@ if [ ! -d /var/run/sshd ]; then
     mkdir --parents /var/run/sshd
 fi
 
-exec $(which sshd) -D
+exec $(which sshd) \
+    -D \
+    -e \
+    -p ${SSHD_PORT}

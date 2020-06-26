@@ -1,9 +1,8 @@
 FROM bmoorman/ubuntu:bionic
 
-ENV SSHD_USERS="docker" \
-    SSHD_KEY_LOC="https://raw.githubusercontent.com/iVirus/Docker/master/SSHd/keys"
+ARG DEBIAN_FRONTEND=noninteractive
 
-ARG DEBIAN_FRONTEND="noninteractive"
+ENV SSHD_PORT=22
 
 RUN echo 'deb https://ookla.bintray.com/debian bionic main' > /etc/apt/sources.list.d/speedtest.list \
  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 379CE192D401AB61 \
@@ -28,6 +27,6 @@ COPY sshd/ /etc/sshd/
 
 VOLUME /config
 
-EXPOSE 22
+EXPOSE ${SSHD_PORT}
 
 CMD ["/etc/sshd/start.sh"]
