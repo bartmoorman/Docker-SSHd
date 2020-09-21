@@ -14,6 +14,7 @@ RUN echo 'deb https://ookla.bintray.com/debian bionic main' > /etc/apt/sources.l
     mtr-tiny \
     net-tools \
     openssh-server \
+    rsync \
     speedtest \
  && sed --in-place --regexp-extended \
     --expression 's/^#(PasswordAuthentication\s+).*/\1no/' \
