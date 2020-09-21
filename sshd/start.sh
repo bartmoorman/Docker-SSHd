@@ -8,7 +8,7 @@ for SSHD_USER in ${SSHD_USERS}; do
 done
 
 if [ ! -d /config/ssh/keys ]; then
-    mkdir --parents /config/ssh/keys
+    install --directory /config/ssh/keys
 fi
 
 for HOST_KEY in /etc/ssh/ssh_host_*_key; do
@@ -21,7 +21,7 @@ for HOST_KEY in /etc/ssh/ssh_host_*_key; do
 done
 
 if [ ! -d /var/run/sshd ]; then
-    mkdir --parents /var/run/sshd
+    install --directory /var/run/sshd
 fi
 
 exec $(which sshd) \
