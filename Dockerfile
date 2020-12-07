@@ -17,8 +17,8 @@ RUN echo 'deb https://ookla.bintray.com/debian bionic main' > /etc/apt/sources.l
     rsync \
     speedtest \
  && sed --in-place --regexp-extended \
-    --expression 's/^#(PasswordAuthentication\s+).*/\1no/' \
-    --expression 's/^#(GatewayPorts\s+).*/\1yes/' \
+    --expression 's|^#(PasswordAuthentication\s+).*|\1no|' \
+    --expression 's|^#(GatewayPorts\s+).*|\1yes|' \
     /etc/ssh/sshd_config \
  && apt-get autoremove --yes --purge \
  && apt-get clean \
