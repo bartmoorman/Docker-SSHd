@@ -1,20 +1,31 @@
-image: docker:stable
-
-variables:
-  DOCKER_TLS_CERTDIR: "/certs"
-
-services:
-  - docker:stable-dind
+stages:
+  - build
+  - deploy
+  - cleanup
 
 before_script:
+  - docker info
   - docker login --username ${DOCKER_HUB_USERNAME} --password ${DOCKER_HUB_PASSWORD}
   - docker login --username ${CI_REGISTRY_USER} --password ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
 
+variables:
+  DOCKER_HUB_IMAGE: ${DOCKER_HUB_USERNAME}/${CI_PROJECT_NAME,,}:${CI_COMMIT_REF_SLUG}
+  GITLAB_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}
+
+after_script:
+  - docker logout
+  - docker logout ${CI_REGISTRY}
+
 build:
   stage: build
-  tags:
-    - docker
   script:
-    - docker build --pull --tag ${DOCKER_HUB_USERNAME}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_SLUG} --tag ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG} .
-    - docker push ${DOCKER_HUB_USERNAME}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_SLUG}
-    - docker push ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}
+    - docker build --pull --tag ${DOCKER_HUB_IMAGE} --tag ${GITLAB_IMAGE} .
+
+deploy:
+  stage: deploy
+    - docker push ${DOCKER_HUB_IMAGE}
+    - docker push ${GITLAB_IMAGE}
+
+cleanup:
+  stage: cleanup
+    - docker image rm ${DOCKER_HUB_IMAGE} ${GITLAB_IMAGE}
