@@ -23,9 +23,11 @@ build:
 
 deploy:
   stage: deploy
+  script:
     - docker push ${DOCKER_HUB_IMAGE}
     - docker push ${GITLAB_IMAGE}
 
 cleanup:
   stage: cleanup
+  script:
     - docker image rm ${DOCKER_HUB_IMAGE} ${GITLAB_IMAGE}
