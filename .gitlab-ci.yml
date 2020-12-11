@@ -7,12 +7,14 @@ variables:
   DOCKER_HUB_IMAGE: ${DOCKER_HUB_USERNAME}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_SLUG}
   GITLAB_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}
 
-before:
-  stage: .pre
-  script:
-    - docker info
-    - docker login --username ${DOCKER_HUB_USERNAME} --password ${DOCKER_HUB_PASSWORD}
-    - docker login --username ${CI_REGISTRY_USER} --password ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+before_script:
+  - docker info
+  - docker login --username ${DOCKER_HUB_USERNAME} --password ${DOCKER_HUB_PASSWORD}
+  - docker login --username ${CI_REGISTRY_USER} --password ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+
+after_script:
+  - docker logout
+  - docker logout ${CI_REGISTRY}
 
 build:
   stage: build
@@ -29,10 +31,3 @@ cleanup:
   stage: cleanup
   script:
     - docker image rm ${DOCKER_HUB_IMAGE} ${GITLAB_IMAGE}
-
-after:
-  stage: .post
-  script:
-    - docker logout
-    - docker logout ${CI_REGISTRY}
-
