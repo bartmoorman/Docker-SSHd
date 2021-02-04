@@ -4,7 +4,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ENV SSHD_PORT=22
 
-RUN echo 'deb https://ookla.bintray.com/debian bionic main' > /etc/apt/sources.list.d/speedtest.list \
+RUN echo 'deb https://ookla.bintray.com/debian focal main' > /etc/apt/sources.list.d/speedtest.list \
  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 379CE192D401AB61 \
  && apt-get update \
  && apt-get install --yes --no-install-recommends \
