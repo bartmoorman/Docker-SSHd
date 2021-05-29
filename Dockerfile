@@ -4,12 +4,12 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ENV SSHD_PORT=22
 
-RUN echo 'deb https://ookla.bintray.com/debian generic main' > /etc/apt/sources.list.d/speedtest.list \
- && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 379CE192D401AB61 \
+RUN echo 'deb https://packagecloud.io/ookla/speedtest-cli/ubuntu/ focal main' > /etc/apt/sources.list.d/ookla_speedtest-cli.list \
+ && echo 'deb-src https://packagecloud.io/ookla/speedtest-cli/ubuntu/ focal main' >> /etc/apt/sources.list.d/ookla_speedtest-cli.list \
+ && curl --silent --location "https://packagecloud.io/ookla/speedtest-cli/gpgkey" | apt-key add \
  && apt-get update \
  && apt-get install --yes --no-install-recommends \
     dnsutils \
-    curl \
     iputils-ping \
     mtr-tiny \
     net-tools \
