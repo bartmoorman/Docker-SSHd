@@ -1,9 +1,9 @@
 variables:
-  DOCKER_HUB_IMAGE: ${DOCKER_HUB_USERNAME}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}
+  DOCKER_HUB_IMAGE: ${DOCKER_HUB_USER}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}
   GITLAB_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}
 
 before_script:
-  - docker login --username ${DOCKER_HUB_USERNAME} --password ${DOCKER_HUB_PASSWORD}
+  - docker login --username ${DOCKER_HUB_USER} --password ${DOCKER_HUB_PASSWORD}
   - docker login --username ${CI_REGISTRY_USER} --password ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
   - docker run --rm --privileged multiarch/qemu-user-static --reset --persistent yes
 after_script:
