@@ -14,7 +14,6 @@ RUN echo 'deb https://packagecloud.io/ookla/speedtest-cli/ubuntu/ focal main' > 
     mtr-tiny \
     net-tools \
     openssh-server \
-    rsync \
     speedtest \
  && sed --in-place --regexp-extended \
     --expression 's|^#(PasswordAuthentication\s+).*|\1no|' \
